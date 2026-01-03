@@ -59,32 +59,7 @@ Alert Engine
         ↓
 Security Personnel / Dashboard
 
-📂 Project Structure
-safewatch-ai/
-│
-├── backend/
-│   ├── app/
-│   │   ├── main.py              # Entry point
-│   │   ├── video/
-│   │   │   └── reader.py        # Video ingestion & FPS control
-│   │   ├── detection/
-│   │   │   └── detector.py      # YOLOv8 inference logic
-│   │   ├── datasets/
-│   │   │   └── weapons/         # Training dataset (knife-focused)
-│   │   └── scripts/
-│   │       └── remap_labels.py  # Dataset label cleanup
-│   │
-│   ├── requirements.txt
-│   └── .env
-│
-├── data/
-│   └── test_video.mp4           # Test footage
-│
-├── runs/
-│   └── detect/
-│       └── safewatch_knife_v12/ # Trained model (best.pt)
-│
-└── README.md
+
 
 ⚙️ Environment Setup
 1️⃣ Create & Activate Virtual Environment

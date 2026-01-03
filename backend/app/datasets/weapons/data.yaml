@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['knife', 'person']
+
+roboflow:
+  workspace: rohit-3hvkr
+  project: safewatch-weapon-detection
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/rohit-3hvkr/safewatch-weapon-detection/dataset/1

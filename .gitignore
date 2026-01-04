@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+
+backend/app/alerts/snapshots/*
+
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+
+# Environment variables
+.env

@@ -2,9 +2,13 @@ from ultralytics import YOLO
 import cv2
 
 class WeaponDetector:
-    def __init__(self, model_path="runs/detect/safewatch_knife_v12/weights/best.pt", confidence_threshold=0.45):
-        self.model = YOLO(model_path)
+    def __init__(self, confidence_threshold=0.45):
         self.confidence_threshold = confidence_threshold
+        
+        self.model = YOLO(
+            r"D:\dipesh\sentipersonal\safewatch-ai\runs\detect\safewatch_knife_v12\weights\best.pt"
+        )
+
 
         # COCO class names we care about
         self.weapon_classes = ["knife", "gun"]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "9ccf233f-55a0-4382-a748-7c118a3775ee",
+    "type": "knife_detected",
+    "severity": "MEDIUM",
+    "confidence": 0.84,
+    "timestamp": "2026-01-04 18:01:37",
+    "snapshot_path": "backend/app/alerts/snapshots\\alert_20260104_180137.jpg"
+  },
+  {
+    "id": "177aa842-08bf-470a-b13b-509c9bced589",
+    "type": "knife_detected",
+    "severity": "MEDIUM",
+    "confidence": 0.82,
+    "timestamp": "2026-01-04 18:05:33",
+    "snapshot_path": "backend/app/alerts/snapshots\\alert_20260104_180533.jpg"
+  },
+  {
+    "id": "ab1fd328-453b-4942-9a7d-9316aa23ab09",
+    "type": "knife_detected",
+    "severity": "MEDIUM",
+    "confidence": 0.82,
+    "timestamp": "2026-01-04 23:45:59",
+    "snapshot_path": "backend/app/alerts/snapshots\\alert_20260104_234559.jpg"
+  }
+]

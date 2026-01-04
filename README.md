@@ -72,29 +72,6 @@ FastAPI Backend
         ↓
 Web Dashboard / API Consumers
 
-📂 Project Structure
-safewatch-ai/
-│
-├── backend/
-│   └── app/
-│       ├── main.py                 # Detection pipeline
-│       ├── api.py                  # FastAPI backend
-│       ├── detection/
-│       │   └── detector.py         # YOLO inference
-│       ├── alerts/
-│       │   ├── temporal_engine.py  # Temporal logic
-│       │   ├── severity.py         # Severity scoring
-│       │   ├── snapshot.py         # Frame capture
-│       │   ├── alerts.json         # Persistent alert store
-│       │   └── snapshots/          # Alert images (runtime)
-│       ├── static/
-│       │   └── index.html          # Dashboard UI
-│       └── scripts/
-│           └── cuda.py              # GPU validation
-│
-├── .gitignore
-├── README.md
-└── requirements.txt
 
 ⚙️ Tech Stack
 Layer	Technology

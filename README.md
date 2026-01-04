@@ -1,225 +1,220 @@
-SafeWatch AI is a real-time computer vision system that analyzes CCTV video feeds to identify potentially dangerous situations and escalate risk early to security personnel.
+🛡️ SafeWatch AI
 
-Instead of attempting unreliable “crime prediction,” SafeWatch focuses on early risk signals (e.g., a person holding a knife) and combines machine learning + temporal logic to reduce response time and human monitoring load.
+Real-Time CCTV Risk Escalation System
 
-This project is being built as:
+🚀 Overview
 
-🎯 A hackathon submission
+SafeWatch AI is a real-time computer vision system that transforms traditional CCTV feeds into an active risk-escalation pipeline.
 
-🧩 A scalable foundation for future features
+Instead of attempting unreliable “crime prediction,” SafeWatch focuses on early detection of high-risk visual signals (e.g., a person holding a knife) and combines machine learning, temporal logic, and severity reasoning to alert security teams faster and more reliably.
 
-📁 A portfolio-ready, industry-aligned system
+This project was built as:
+
+🏆 A hackathon submission
+
+🧩 A scalable system foundation
+
+💼 A portfolio-ready, industry-aligned project
 
 🎯 Problem Statement
 
 Traditional CCTV systems are passive:
 
-They record footage but do not analyze it in real time
+They only record footage
 
-Security staff must monitor multiple screens continuously
+Operators must monitor screens continuously
 
-Critical events are often noticed too late
+Critical incidents are often noticed too late
 
-SafeWatch AI transforms CCTV from passive recording into an active risk escalation system.
+SafeWatch AI augments CCTV with intelligence, enabling early warnings and faster human response without making unrealistic AI claims.
 
-💡 Solution Approach
+💡 Solution Philosophy
 
-Instead of detecting “crimes,” SafeWatch focuses on:
+Detection ≠ Accusation
+AI assists humans — it does not replace them
 
-Early identification of high-risk visual signals
-and escalating them for human review
+SafeWatch focuses on:
 
-Core Design Philosophy
+Risk escalation, not crime prediction
 
-Detection ≠ accusation
+Explainable rules, not black-box claims
 
-AI assists humans, it does not replace them
+Reliability over hype
 
-Reliability > hype
+🧠 What SafeWatch AI Does (MVP)
 
-🧠 What the System Currently Detects (MVP)
+✔ Real-time video ingestion
+✔ Person & knife detection (YOLOv8, GPU-accelerated)
+✔ Temporal confirmation (multi-frame persistence)
+✔ Severity classification (LOW / MEDIUM / HIGH)
+✔ Frame snapshot capture for evidence
+✔ REST API (FastAPI)
+✔ Live dashboard (HTML + JS)
 
-✔ Person presence
-✔ Knife detection (fine-tuned YOLOv8 model)
-✔ Real-time frame processing
-✔ Console-based alert logs
+⚠️ Gun detection is intentionally excluded in the MVP due to poor reliability in CCTV environments — this is a documented and deliberate design decision.
 
-⚠️ Gun detection is intentionally excluded in MVP due to reliability issues in CCTV footage (documented limitation).
-
-🏗️ System Architecture (High-Level)
-Video Input (MP4 / CCTV)
+🏗️ System Architecture (High Level)
+CCTV / Video Feed
         ↓
-Frame Extraction (OpenCV)
+Frame Sampling (OpenCV)
         ↓
-Object Detection (YOLOv8 – fine-tuned)
+Object Detection (YOLOv8 + CUDA)
         ↓
-Temporal Logic (next phase)
+Temporal Alert Engine
         ↓
-Alert Engine
+Severity & Context Logic
         ↓
-Security Personnel / Dashboard
+Snapshot Capture
+        ↓
+Alert Storage (JSON)
+        ↓
+FastAPI Backend
+        ↓
+Web Dashboard / API Consumers
 
+📂 Project Structure
+safewatch-ai/
+│
+├── backend/
+│   └── app/
+│       ├── main.py                 # Detection pipeline
+│       ├── api.py                  # FastAPI backend
+│       ├── detection/
+│       │   └── detector.py         # YOLO inference
+│       ├── alerts/
+│       │   ├── temporal_engine.py  # Temporal logic
+│       │   ├── severity.py         # Severity scoring
+│       │   ├── snapshot.py         # Frame capture
+│       │   ├── alerts.json         # Persistent alert store
+│       │   └── snapshots/          # Alert images (runtime)
+│       ├── static/
+│       │   └── index.html          # Dashboard UI
+│       └── scripts/
+│           └── cuda.py              # GPU validation
+│
+├── .gitignore
+├── README.md
+└── requirements.txt
 
+⚙️ Tech Stack
+Layer	Technology
+Computer Vision	OpenCV
+ML Framework	PyTorch (CUDA-enabled)
+Object Detection	YOLOv8 (Ultralytics)
+Backend API	FastAPI
+Frontend	HTML + JavaScript
+Acceleration	NVIDIA CUDA
+Storage	JSON (hackathon-safe)
+🧪 How the System Works
+1️⃣ Detection
 
-⚙️ Environment Setup
-1️⃣ Create & Activate Virtual Environment
-python -m venv venv
-venv\Scripts\activate   # Windows
+YOLOv8 detects persons and knives in video frames.
 
-2️⃣ Install Dependencies
-pip install -r backend/requirements.txt
+2️⃣ Temporal Confirmation
 
+A single detection is treated as noise.
+An alert is triggered only if detections persist across multiple frames within a time window.
 
-Key libraries:
+3️⃣ Severity Scoring
 
-OpenCV
+Severity is computed using:
 
-Ultralytics (YOLOv8)
+Detection count
 
-FastAPI (future backend)
+Average confidence
 
-Torch (CPU)
+Severity	Meaning
+LOW	Weak / brief signal
+MEDIUM	Persistent risk
+HIGH	Persistent + high confidence
+4️⃣ Snapshot Evidence
 
-📹 Video Ingestion (Phase 1)
+When a risk is confirmed, the exact frame is saved as visual proof.
 
-Video is read using OpenCV
+5️⃣ Alert Exposure
 
-FPS is intentionally downsampled (1–5 FPS) to reduce compute
+Alerts are:
 
-Each frame is passed to the detection pipeline
+Stored persistently (alerts.json)
 
-This ensures:
+Served via REST API
 
-Stable real-time performance
+Displayed on a live dashboard
 
-Predictable latency
-
-🧠 Machine Learning (Phase 2)
-Model
-
-YOLOv8n
-
-Fine-tuned on a knife-focused dataset
-
-Classes:
-
-0 → person
-
-1 → knife
-
-Why Knife-Only?
-
-Knife detection is significantly more reliable than gun detection in CCTV
-
-Gun datasets often suffer from label contamination
-
-Industry systems rely on context + behavior, not gun-only detection
-
-Model Used
-runs/detect/safewatch_knife_v12/weights/best.pt
-
-
-Metrics achieved (after ~2–3 epochs on CPU):
-
-Precision ≈ 0.83
-
-mAP@0.5 ≈ 0.81
-
-Good enough for:
-
-Hackathon demo
-
-Real-time testing
-
-Alert pipeline integration
-
-🧪 Running the System
-
-From project root:
-
+▶️ Running the Project
+1️⃣ Activate Environment
 venv\Scripts\activate
+
+2️⃣ Start Detection Pipeline
 python backend/app/main.py
 
+3️⃣ Start API & Dashboard
+uvicorn backend.app.api:app --reload
 
-Expected output:
+4️⃣ Open Dashboard
+http://127.0.0.1:8000
 
-Video opened | Target FPS: 1
-YOLOv8 model loaded
-Processing frame...
-[DETECTION] knife (0.62)
-🚨 RISK EVENT DETECTED
+🌐 API Endpoints
+Endpoint	Description
+GET /alerts	List all alerts
+GET /alerts/{id}	Alert details
+GET /alerts/{id}/snapshot	Snapshot image
+GET /docs	Swagger API docs
+⚠️ Known Limitations (Honest & Intentional)
 
-🚨 Current Alert Behavior
+No gun detection in MVP (data unreliability)
 
-Detection logs are printed to console
+No behavior or intent inference
 
-Knife detection triggers an immediate alert log
+Single-camera pipeline
 
-No dashboard yet (next phase)
+JSON storage instead of DB (hackathon-appropriate)
 
-🔜 What’s Coming Next (Planned)
-Phase 3 — Temporal Alert Engine
+These are design trade-offs, not oversights.
 
-Require knife detection across multiple frames
+🔮 Roadmap
 
-Reduce false positives
+Person-weapon proximity logic
 
-Severity scoring
+Pose estimation for aggression cues
 
-Phase 4 — Context Awareness
+Multi-camera support
 
-Location-based rules
+Database persistence
 
-Person proximity logic
+Real-time WebSocket alerts
 
-Phase 5 — UI & Notifications
-
-Web dashboard
-
-SMS / WebSocket alerts
-
-⚠️ Known Limitations (Explicit & Honest)
-
-Gun detection intentionally excluded (unreliable in CCTV)
-
-No behavior understanding yet
-
-Single-camera support in MVP
-
-These are design decisions, not shortcomings.
+Mobile notifications
 
 🏆 Hackathon Positioning
 
 SafeWatch AI is positioned as:
 
-“A real-time risk escalation system that assists security teams by identifying high-risk visual signals in CCTV feeds and reducing response time.”
+A real-time CCTV risk escalation system that assists security teams by identifying persistent high-risk visual signals and reducing response time.
 
 This framing is:
 
 Technically honest
 
+Industry-aligned
+
 Judge-friendly
 
-Scalable
+👥 Team Collaboration
 
-👥 Team Collaboration Notes
+ML core is complete
 
-If you’re joining this project:
+Backend is modular
 
-Focus on logic, UI, or backend
+Frontend can be extended independently
 
-ML core is already functional
-
-Avoid retraining models unless necessary
-
-Respect the “risk escalation, not crime prediction” philosophy
+Clear separation of concerns
 
 📜 License
 
-This project is currently for educational and hackathon use.
-Licensing will be finalized if productized.
+This project is currently intended for educational and hackathon use.
 
 🙌 Final Note
 
-This is not a demo script.
-This is a real system built with real constraints, designed to be extended responsibly.
+SafeWatch AI is not a demo script —
+it is a real system built with real constraints, designed to be extended responsibly.
